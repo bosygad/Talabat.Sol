@@ -5,6 +5,8 @@ namespace Talabat.APIs
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine("Create Session01");
+           
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
