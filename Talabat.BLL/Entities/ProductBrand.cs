@@ -11,7 +11,7 @@ namespace Talabat.Core.Entities
         
         public string Name { get; set; }
 
-        public ICollection<Product> products { get; set; } = new HashSet<Product>();
+    public ICollection<Product> products { get; set; } = new HashSet<Product>();
 
         
     }
