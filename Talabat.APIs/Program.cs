@@ -6,7 +6,7 @@ namespace Talabat.APIs
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task  Main(string[] args)
         {
             
            
@@ -23,6 +23,21 @@ namespace Talabat.APIs
             #endregion
 
             var app = builder.Build();
+            #region Update-database
+           // StoreDbContext dbContext = new StoreDbContext();  //Invalid
+           //await dbContext.Database.MigrateAsync();
+
+          using var Scope = app.Services.CreateScope();
+            /// Group Of Services LifeTime Scoped 
+
+            var Services= Scope.ServiceProvider;
+            //Services It self
+
+            var DbContext = Services.GetRequiredService<StoreDbContext>();
+            await DbContext.Database.MigrateAsync();
+            
+            #endregion
+
             #region Configure - Configure the HTTP request pipeline.
 
             // Configure the HTTP request pipeline.
