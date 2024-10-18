@@ -24,17 +24,28 @@ namespace Talabat.APIs
 
             var app = builder.Build();
             #region Update-database
-           // StoreDbContext dbContext = new StoreDbContext();  //Invalid
-           //await dbContext.Database.MigrateAsync();
+            // StoreDbContext dbContext = new StoreDbContext();  //Invalid
+            //await dbContext.Database.MigrateAsync();
+                using var Scope = app.Services.CreateScope();
+                /// Group Of Services LifeTime Scoped 
 
-          using var Scope = app.Services.CreateScope();
-            /// Group Of Services LifeTime Scoped 
+                var Services = Scope.ServiceProvider;
+                //Services It self
 
-            var Services= Scope.ServiceProvider;
-            //Services It self
+            var LoggerFactory = Services.GetService<ILoggerFactory>();
 
-            var DbContext = Services.GetRequiredService<StoreDbContext>();
-            await DbContext.Database.MigrateAsync();
+            try
+            {
+                var DbContext = Services.GetRequiredService<StoreDbContext>();
+                await DbContext.Database.MigrateAsync();
+            }
+            catch (Exception ex)
+            {
+                var Logger = LoggerFactory.CreateLogger<Program>();
+                Logger.LogError(ex,"An Error Occured During Appling The Migration");
+               
+            }
+        
             
             #endregion
 
