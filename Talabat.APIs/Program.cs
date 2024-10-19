@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using Talabat.Repository.Data;
 using Talabat.Repository.Data.BDContext;
 
 namespace Talabat.APIs
@@ -36,8 +37,12 @@ namespace Talabat.APIs
 
             try
             {
-                var DbContext = Services.GetRequiredService<StoreDbContext>();
-                await DbContext.Database.MigrateAsync();
+                var dbContext = Services.GetRequiredService<StoreDbContext>();
+                await dbContext.Database.MigrateAsync();
+                #region Data Seeding
+                await StoreContextSeed.SeedAsync(dbContext);
+            #endregion
+
             }
             catch (Exception ex)
             {
@@ -45,10 +50,11 @@ namespace Talabat.APIs
                 Logger.LogError(ex,"An Error Occured During Appling The Migration");
                
             }
-        
-            
+
+
             #endregion
 
+          
             #region Configure - Configure the HTTP request pipeline.
 
             // Configure the HTTP request pipeline.
