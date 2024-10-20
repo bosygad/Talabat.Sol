@@ -29,6 +29,7 @@ namespace Talabat.Repository
 
         public async Task<T> GetByIdAsync(int id)
         {
+            
             return await _dbContext.Set<T>().FindAsync(id);
         }
     }

@@ -13,14 +13,14 @@ namespace Talabat.Repository.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            //builder.HasOne(p => p.ProductBrand)
-            //    .WithMany()
-            //    .HasForeignKey(P => P.ProductBrandId);
+            builder.HasOne(p => p.ProductBrand)
+                .WithMany()
+                .HasForeignKey(P => P.ProductBrandId);
 
 
-            //builder.HasOne(p => p.ProductType)
-            //    .WithMany()
-            //    .HasForeignKey(P => P.ProductTypeId);
+            builder.HasOne(p => p.ProductType)
+                .WithMany()
+                .HasForeignKey(P => P.ProductTypeId);
 
             builder.Property(P => P.Name).IsRequired().HasMaxLength(100);
             builder.Property(P => P.Description).IsRequired();
