@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Talabat.Core.Entities;
-using Talabat.Core.Repository;
+using Talabat.Core.Repositories;
 
 namespace Talabat.APIs.Controllers
 {
@@ -31,5 +31,7 @@ namespace Talabat.APIs.Controllers
             var Product = await _productrepository.GetByIdAsync(id);
             return Ok(Product);
         }
+
+       
     }
 }

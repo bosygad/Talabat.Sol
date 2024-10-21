@@ -11,7 +11,7 @@ namespace Talabat.APIs
     {
         public static async Task  Main(string[] args)
         {
-            Console.WriteLine("Session 02");
+            
 
             var builder = WebApplication.CreateBuilder(args);
 
