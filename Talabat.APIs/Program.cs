@@ -1,6 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
-using Talabat.Core.Repository;
+using Talabat.Core.Repositories;
 using Talabat.Repository;
 using Talabat.Repository.Data;
 using Talabat.Repository.Data.BDContext;
@@ -11,6 +11,7 @@ namespace Talabat.APIs
     {
         public static async Task  Main(string[] args)
         {
+            Console.WriteLine("Session 02");
 
             var builder = WebApplication.CreateBuilder(args);
 
