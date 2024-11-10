@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Talabat.APIs.Errors;
+using Talabat.APIs.Extensions;
 using Talabat.APIs.Helpers;
 using Talabat.APIs.Middleware;
 using Talabat.Core.Repositories;
@@ -27,25 +28,8 @@ namespace Talabat.APIs
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<StoreDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-           builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            builder.Services.AddAutoMapper(typeof(MappingProfiles));
-            builder.Services.Configure<ApiBehaviorOptions>(Options =>
-            {
-                Options.InvalidModelStateResponseFactory = (ActionContext) =>
-                {
-                    var errors = ActionContext.ModelState.Where(P => P.Value.Errors.Count() > 0)
-                                               .SelectMany(P => P.Value.Errors)
-                                               .Select(E => E.ErrorMessage)
-                                               .ToArray();
-                    var ValidationErrorResponse = new ApiValidationErrorResponse()
-                    {
-                        Errors = errors
-                    };
-                    return new BadRequestObjectResult(ValidationErrorResponse);
-                
-                };
-            });
-            
+            builder.Services.AddApplicationServices();
+
             #endregion
 
             var app = builder.Build();
@@ -86,8 +70,7 @@ namespace Talabat.APIs
                 app.UseMiddleware<ExceptionMiddleware>();
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerMiddlewares();
             }
           //  app.UseStatusCodePagesWithRedirects("/errors/{0}");
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
