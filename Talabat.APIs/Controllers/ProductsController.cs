@@ -24,6 +24,7 @@ namespace Talabat.APIs.Controllers
             _productrepository = Productrepository;
             _mapper = mapper;
             _typeRepo = TypeRepo;
+            ///test
             _brandRepo = BrandRepo;
         }
         ///Get All Product
