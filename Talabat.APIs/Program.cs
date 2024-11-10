@@ -60,7 +60,7 @@ namespace Talabat.APIs
 
             #endregion
 
-          
+            Console.WriteLine();
             #region Configure - Configure the HTTP request pipeline.
 
             // Configure the HTTP request pipeline.
