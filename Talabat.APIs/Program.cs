@@ -1,6 +1,10 @@
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Talabat.APIs.Errors;
+using Talabat.APIs.Extensions;
 using Talabat.APIs.Helpers;
+using Talabat.APIs.Middleware;
 using Talabat.Core.Repositories;
 using Talabat.Repository;
 using Talabat.Repository.Data;
@@ -12,8 +16,8 @@ namespace Talabat.APIs
     {
         public static async Task  Main(string[] args)
         {
-            
 
+          
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -24,9 +28,8 @@ namespace Talabat.APIs
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<StoreDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-           builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            builder.Services.AddAutoMapper(typeof(MappingProfiles));
-            
+            builder.Services.AddApplicationServices();
+
             #endregion
 
             var app = builder.Build();
@@ -64,11 +67,14 @@ namespace Talabat.APIs
             #region Configure - Configure the HTTP request pipeline.
 
             // Configure the HTTP request pipeline.
+                app.UseMiddleware<ExceptionMiddleware>();
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerMiddlewares();
             }
+          //  app.UseStatusCodePagesWithRedirects("/errors/{0}");
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
+
             app.UseStaticFiles();
             app.UseHttpsRedirection();
 
