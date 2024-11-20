@@ -17,7 +17,12 @@ namespace Talabat.Core.Specifications
 
         ///Include(P => P.ProductBrand)
         public List<Expression<Func<T , object>>> Includes { get; set; }
+        // Order By(P=>P.Name) Asc
+        public Expression<Func<T,object>> OrederBy { get; set; }
 
+        // OrderByDesc(P=>P.Name) Desc
+
+        public Expression<Func<T,object>> OrderByDesc { get; set; }
 
 
     }
